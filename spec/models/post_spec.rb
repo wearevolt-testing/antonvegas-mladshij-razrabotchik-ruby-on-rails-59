@@ -19,9 +19,12 @@ RSpec.describe Post, type: :model do
     it 'body is required' do
       should validate_presence_of(:body)
     end
+  end
 
-    it 'published_at is required' do
-      should validate_presence_of(:published_at)
+  describe 'autocomplite' do
+    it 'complite published_at' do
+      post = FactoryGirl.create :post
+      expect(post.published_at).not_to be_nil
     end
   end
 end
