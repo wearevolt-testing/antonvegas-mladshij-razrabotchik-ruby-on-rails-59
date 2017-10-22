@@ -2,7 +2,11 @@ class Api::V1::PostsController < ApplicationController
   before_action :set_post, only: [:show]
 
   def index
-    @posts = Post.all
+
+    @posts = Post.paginate(page: params[:page], per_page: params[:per_page])
+
+    response.headers["count_of_pages"]  = @posts.total_pages.to_s
+    response.headers["count_of_records"]  = @posts.count.to_s
 
     render json: @posts
   end

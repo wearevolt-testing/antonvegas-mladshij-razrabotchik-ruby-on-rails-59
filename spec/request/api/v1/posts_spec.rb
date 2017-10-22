@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Post api', type: :request do
   let!(:user) { FactoryGirl.create :user }
-  let!(:posts) { create_list(:post, 5, user: user, published_at: Faker::Date.forward(23)) }
+  let!(:posts) { create_list(:post, 15, user: user, published_at: Faker::Date.forward(23)) }
   let(:id) { posts.first.id }
   let(:headers) { valid_headers }
   let(:valid_params) { '{ "title" : "Some title", "body" : "Text for post" }' }
@@ -50,11 +50,11 @@ RSpec.describe 'Post api', type: :request do
 
   describe 'GET /api/v1/posts.json' do
     context 'request is valid' do
-      before { get '/api/v1/posts.json', headers: headers }
+      before { get '/api/v1/posts.json', params: { page: 1, per_page: 7 },  headers: headers }
 
       it 'returns posts' do
         expect(json).not_to be_empty
-        expect(json.size).to eq(5)
+        expect(json.size).to eq(7)
       end
 
       it 'returns status code 200' do
