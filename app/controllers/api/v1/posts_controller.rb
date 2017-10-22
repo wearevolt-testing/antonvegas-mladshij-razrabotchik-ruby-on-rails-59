@@ -3,7 +3,7 @@ class Api::V1::PostsController < ApplicationController
 
   def index
 
-    @posts = Post.paginate(page: params[:page], per_page: params[:per_page])
+    @posts = Post.order('published_at DESC').paginate(page: params[:page], per_page: params[:per_page])
 
     response.headers["count_of_pages"]  = @posts.total_pages.to_s
     response.headers["count_of_records"]  = @posts.count.to_s
